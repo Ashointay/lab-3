@@ -1,8 +1,13 @@
-def average_imdb_score(movies):
-    if not movies:
+def average_imdb_score(user_input, movies_data):
+    selected_movies = [movie.strip() for movie in user_input.split(",")]
+    
+    filtered_movies = [movie for movie in movies_data if movie["name"] in selected_movies]
+    
+    if filtered_movies:
+        total_score = sum(movie["imdb"] for movie in filtered_movies)
+        return total_score / len(filtered_movies) 
+    else:
         return 0  
-    total_score = sum(movie["imdb"] for movie in movies) 
-    return total_score / len(movies) 
 
 movies = [
     {"name": "Usual Suspects", "imdb": 7.0, "category": "Thriller"},
@@ -22,5 +27,11 @@ movies = [
     {"name": "We Two", "imdb": 7.2, "category": "Romance"}
 ]
 
+user_input = input()
 
-print("average IMDB score:", average_imdb_score(movies))
+average_score = average_imdb_score(user_input, movies)
+
+if average_score > 0:
+    print(average_score)
+else:
+    print("not found")
